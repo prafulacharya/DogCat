@@ -17,18 +17,24 @@ class ClientApp:
         self.filename = "inputImage.jpg"
         self.classifier = dogcat(self.filename)
 
+#When i talk about web Api, they can't be excecuted on local machine.
+#We need a server for that.
 
-@app.route("/", methods=['GET'])
-@cross_origin()
+
+
+#For all the base url backslash is called defaultly
+#
+@app.route("/", methods=['GET'])   #route- url
+@cross_origin() #It will allow us interact with http and https--
+#means it does not block request -> to access from each other.
 def home():
     return render_template('index.html')
-
 
 @app.route("/predict", methods=['POST'])
 @cross_origin()
 def predictRoute():
-    image = request.json['image']
-    decodeImage(image, clApp.filename)
+    image = request.json['image'] #transfering image in string format using base64
+    decodeImage(image, clApp.filename) #base64 is  used to encode binary data (image,sound) for embedding into HTML,CSS,TXT DOCS
     result = clApp.classifier.predictiondogcat()
     return jsonify(result)
 
